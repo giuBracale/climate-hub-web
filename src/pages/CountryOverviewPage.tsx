@@ -4,10 +4,17 @@ import { useCountryHistory } from '../features/country-detail/useCountryHistory'
 import { CountryHeader } from '../features/country-detail/CountryHeader'
 import { MetricCard } from '../features/country-detail/MetricCard'
 import { YearSelector } from '../features/country-detail/YearSelector'
+import { MetricSelector } from '../features/country-detail/MetricSelector'
+import { TrendChart } from '../features/country-detail/TrendChart'
 import {
   calculatePercentageChange,
   findRecordByYear,
 } from '../features/country-detail/countryDetail.utils'
+import {
+  toChartData,
+  METRIC_LABELS,
+} from '../features/country-detail/chart.utils'
+import type { ChartMetric } from '../features/country-detail/chart.utils'
 import type { MetricCardProps } from '../features/country-detail/MetricCard'
 
 function formatGdp(value: number | null | undefined): string {
@@ -51,11 +58,27 @@ export function CountryOverviewPage() {
   const history = useCountryHistory(country)
   const [startYear, setStartYear] = useState<number | undefined>(undefined)
   const [endYear, setEndYear] = useState<number | undefined>(undefined)
+  const [metric, setMetric] = useState<ChartMetric>('gdp')
 
+  // years sorted descending for selectors; computed before early returns so
+  // chartData useMemo can depend on it
   const years = useMemo(
     () => (history.data ?? []).map((r) => r.year).sort((a, b) => b - a),
     [history.data],
   )
+
+  // Derive effective range before early returns (fallback to 0 while data is absent)
+  const minYear = years.length > 0 ? years[years.length - 1] : 0
+  const maxYear = years.length > 0 ? years[0] : 0
+  const effectiveStart = startYear ?? minYear
+  const effectiveEnd = endYear ?? maxYear
+
+  const chartData = useMemo(
+    () => toChartData(history.data ?? [], metric, effectiveStart, effectiveEnd),
+    [history.data, metric, effectiveStart, effectiveEnd],
+  )
+
+  // --- early returns ---
 
   if (!country) {
     return (
@@ -87,14 +110,8 @@ export function CountryOverviewPage() {
     )
   }
 
-  // years is guaranteed non-empty past this point
-  const minYear = years[years.length - 1]  // earliest
-  const maxYear = years[0]                  // latest
+  // --- render (years is non-empty here) ---
 
-  const effectiveStart = startYear ?? minYear
-  const effectiveEnd = endYear ?? maxYear
-
-  // Filter options to enforce valid range without an error message
   const startYearOptions = years.filter((y) => y < effectiveEnd)
   const endYearOptions = years.filter((y) => y > effectiveStart)
 
@@ -121,6 +138,7 @@ export function CountryOverviewPage() {
         datasetRange={{ first: minYear, last: maxYear }}
       />
 
+      {/* Controls */}
       <div className="mb-8 flex flex-wrap items-end gap-6">
         <YearSelector
           label="Start Year"
@@ -134,8 +152,29 @@ export function CountryOverviewPage() {
           value={effectiveEnd}
           onChange={setEndYear}
         />
+        <MetricSelector value={metric} onChange={setMetric} />
       </div>
 
+      {/* Historical Trends */}
+      <section className="mb-8">
+        <div className="mb-4 flex items-baseline justify-between">
+          <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
+            Historical Trends
+          </h2>
+          <span className="text-sm text-gray-400 dark:text-gray-500">
+            Dataset coverage: {minYear} → {maxYear}
+          </span>
+        </div>
+        <div className="rounded-lg border border-gray-200 bg-white p-4 dark:border-gray-700 dark:bg-gray-900">
+          <TrendChart
+            data={chartData}
+            metric={metric}
+            label={METRIC_LABELS[metric]}
+          />
+        </div>
+      </section>
+
+      {/* Climate Snapshot */}
       <section className="mb-8">
         <h2 className="mb-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
           Climate Snapshot — {effectiveEnd}
@@ -166,6 +205,7 @@ export function CountryOverviewPage() {
         )}
       </section>
 
+      {/* Comparison */}
       <section>
         <h2 className="mb-4 text-lg font-semibold text-gray-700 dark:text-gray-300">
           Comparison — {effectiveStart} to {effectiveEnd}
