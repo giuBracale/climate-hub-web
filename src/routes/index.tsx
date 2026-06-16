@@ -5,17 +5,21 @@ import { CountriesPage } from '../pages/CountriesPage'
 import { CountryOverviewPage } from '../pages/CountryOverviewPage'
 import { DatasetsPage } from '../pages/DatasetsPage'
 import { AboutPage } from '../pages/AboutPage'
+import { NotFoundPage } from '../pages/NotFoundPage'
+import { ErrorPage } from '../pages/ErrorPage'
 
 export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: <ErrorPage />,
     children: [
       { index: true, element: <HomePage /> },
       { path: 'countries', element: <CountriesPage /> },
       { path: 'countries/:country', element: <CountryOverviewPage /> },
       { path: 'datasets', element: <DatasetsPage /> },
       { path: 'about', element: <AboutPage /> },
+      { path: '*', element: <NotFoundPage /> },
     ],
   },
 ])

@@ -8,12 +8,18 @@ export const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 })
-console.log('VITE_API_URL=', import.meta.env.VITE_API_URL)
+
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (!error.response) {
+      return Promise.reject(new Error('Service unavailable. Please try again later.'))
+    }
     const message =
-      error.response?.data?.message ?? error.message ?? 'Unknown error'
+      error.response.data?.message ??
+      error.response.data?.error ??
+      error.message ??
+      'Unknown error'
     return Promise.reject(new Error(message))
   },
 )
