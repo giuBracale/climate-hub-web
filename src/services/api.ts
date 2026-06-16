@@ -8,7 +8,7 @@ export const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
 })
-
+console.log('VITE_API_URL=', import.meta.env.VITE_API_URL)
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
