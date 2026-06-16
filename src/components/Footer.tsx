@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import logoHorizontal from '../assets/branding/logo-horizontal.svg'
 
 const platformLinks = [
   { label: 'Home', to: '/' },
@@ -22,9 +23,11 @@ export function Footer() {
 
           {/* Brand */}
           <div className="lg:col-span-2">
-            <p className="text-sm font-bold text-sky-700 dark:text-sky-400">
-              🌍 Climate Hub
-            </p>
+            <img
+              src={logoHorizontal}
+              alt="Climate Hub"
+              className="h-8 w-auto"
+            />
             <p className="mt-3 max-w-xs text-sm leading-relaxed text-gray-500 dark:text-gray-400">
               An independent platform for exploring decades of climate and
               economic data from publicly available international sources.

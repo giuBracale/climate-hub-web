@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#f0f7fd"/>
+  <!-- Decorative large arc background -->
+  <path d="M0,630 C200,400 400,550 600,380 C800,210 1000,320 1200,180 L1200,630 Z"
+    fill="#5bb8f5" opacity="0.08"/>
+  <!-- Icon mark, large left-center -->
+  <rect x="120" y="190" width="250" height="250" rx="44" fill="#5bb8f5"/>
+  <path d="M158,378 C172,378 182,398 206,368 C228,340 240,372 262,352 C280,335 298,298 322,272"
+    fill="none" stroke="white" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M158,378 C172,378 182,398 206,368 C228,340 240,372 262,352 C280,335 298,298 322,272 L322,418 L158,418 Z"
+    fill="white" opacity="0.15"/>
+  <circle cx="322" cy="272" r="18" fill="white"/>
+  <circle cx="322" cy="272" r="8" fill="#5bb8f5"/>
+  <!-- Wordmark right side -->
+  <text x="440" y="332"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="88" fill="#0d2b45">
+    <tspan font-weight="600">Climate</tspan>
+  </text>
+  <text x="440" y="420"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="88" font-weight="300" fill="#2e90d1">Hub</text>
+  <!-- Tagline -->
+  <text x="440" y="475"
+    font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+    font-size="24" font-weight="300" fill="#5a7a94" letter-spacing="0.06em">
+    Climate &amp; Economic Data Platform
+  </text>
+</svg>

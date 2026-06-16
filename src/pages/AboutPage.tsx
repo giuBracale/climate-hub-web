@@ -94,24 +94,6 @@ export function AboutPage() {
           </div>
         </section>
 
-        <section>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Source code
-          </h2>
-          <p className="mt-3">
-            Climate Hub is an open project. The source code is available on{' '}
-            <a
-              href="https://github.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
-            >
-              GitHub ↗
-            </a>
-            .
-          </p>
-        </section>
-
       </div>
     </div>
   )
