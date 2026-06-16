@@ -19,39 +19,43 @@ interface TrendChartProps {
 export function TrendChart({ data, metric, label }: TrendChartProps) {
   if (data.length === 0) {
     return (
-      <p className="py-8 text-center text-gray-500 dark:text-gray-400">
-        No data available for the selected range.
-      </p>
+      <div className="flex h-64 items-center justify-center">
+        <p className="text-sm text-gray-400 dark:text-gray-500">
+          No data available for the selected range.
+        </p>
+      </div>
     )
   }
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <LineChart data={data} margin={{ top: 4, right: 8, bottom: 4, left: 8 }}>
-        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+    <ResponsiveContainer width="100%" height={460}>
+      <LineChart data={data} margin={{ top: 8, right: 16, bottom: 8, left: 8 }}>
+        <CartesianGrid strokeDasharray="3 3" stroke="#e0f2fe" vertical={false} />
         <XAxis
           dataKey="year"
-          tick={{ fontSize: 12, fill: '#6b7280' }}
+          tick={{ fontSize: 12, fill: '#94a3b8' }}
           tickLine={false}
-          axisLine={{ stroke: '#e5e7eb' }}
+          axisLine={{ stroke: '#e0f2fe' }}
+          dy={6}
         />
         <YAxis
           tickFormatter={(v: number) => formatYAxisTick(v, metric)}
-          tick={{ fontSize: 12, fill: '#6b7280' }}
+          tick={{ fontSize: 12, fill: '#94a3b8' }}
           tickLine={false}
           axisLine={false}
-          width={72}
+          width={76}
         />
         <Tooltip
+          cursor={{ stroke: '#0ea5e9', strokeWidth: 1, strokeDasharray: '4 2' }}
           content={({ active, payload }) => {
             if (!active || !payload?.length) return null
             const point = payload[0].payload as ChartDataPoint
             return (
-              <div className="rounded-md border border-gray-200 bg-white p-3 text-sm shadow-sm dark:border-gray-700 dark:bg-gray-900">
-                <p className="font-semibold text-gray-900 dark:text-white">
+              <div className="rounded-lg border border-sky-100 bg-white p-3 text-sm shadow-md dark:border-gray-700 dark:bg-gray-900">
+                <p className="font-semibold text-gray-700 dark:text-gray-200">
                   {point.year}
                 </p>
-                <p className="mt-0.5 text-gray-500 dark:text-gray-400">
+                <p className="mt-1 text-sky-600 dark:text-sky-400">
                   {label}: {formatChartValue(point.value, metric)}
                 </p>
               </div>
@@ -61,10 +65,10 @@ export function TrendChart({ data, metric, label }: TrendChartProps) {
         <Line
           type="monotone"
           dataKey="value"
-          stroke="#3b82f6"
-          strokeWidth={2}
+          stroke="#0ea5e9"
+          strokeWidth={2.5}
           dot={false}
-          activeDot={{ r: 4, strokeWidth: 0 }}
+          activeDot={{ r: 5, fill: '#0ea5e9', strokeWidth: 0 }}
         />
       </LineChart>
     </ResponsiveContainer>

@@ -7,14 +7,14 @@ interface YearSelectorProps {
 
 export function YearSelector({ label, years, value, onChange }: YearSelectorProps) {
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1.5">
       <label className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
         {label}
       </label>
       <select
         value={value}
         onChange={(e) => onChange(Number(e.target.value))}
-        className="rounded-md border border-gray-200 bg-white px-3 py-2 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+        className="rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm font-medium text-gray-800 shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 dark:border-gray-700 dark:bg-gray-900 dark:text-white"
       >
         {years.map((year) => (
           <option key={year} value={year}>
