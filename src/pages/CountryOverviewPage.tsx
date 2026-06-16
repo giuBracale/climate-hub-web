@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
+import { FeedbackState, classifyApiError } from '../components/FeedbackState'
 import { useCountryHistory } from '../features/country-detail/useCountryHistory'
 import { CountryHeader } from '../features/country-detail/CountryHeader'
 import { MetricCard } from '../features/country-detail/MetricCard'
@@ -91,7 +92,19 @@ export function CountryOverviewPage() {
 
   if (!country) {
     return (
-      <p className="text-gray-600 dark:text-gray-400">Country not found.</p>
+      <FeedbackState
+        variant="not-found"
+        title="Country unavailable"
+        description="We couldn't find climate records for the requested country."
+        actions={
+          <Link
+            to="/countries"
+            className="rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500"
+          >
+            View Countries
+          </Link>
+        }
+      />
     )
   }
 
@@ -102,10 +115,55 @@ export function CountryOverviewPage() {
   }
 
   if (history.isError) {
+    const variant = classifyApiError(history.error)
+    const isNetwork = variant === 'network-error'
+    const isNotFound = variant === 'not-found'
     return (
-      <p className="text-red-600 dark:text-red-400">
-        Failed to load data: {history.error?.message ?? 'Unknown error'}
-      </p>
+      <FeedbackState
+        variant={variant}
+        title={
+          isNotFound
+            ? 'Country unavailable'
+            : isNetwork
+              ? 'Data service unavailable'
+              : 'Something went wrong'
+        }
+        description={
+          isNotFound
+            ? "We couldn't find climate records for the requested country."
+            : isNetwork
+              ? 'Climate Hub is currently unable to retrieve climate data. Please try again in a few moments.'
+              : 'An unexpected error occurred while loading this view.'
+        }
+        actions={
+          <>
+            {isNetwork && (
+              <button
+                onClick={() => history.refetch()}
+                className="rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500"
+              >
+                Retry
+              </button>
+            )}
+            <Link
+              to="/countries"
+              className={
+                isNetwork
+                  ? 'rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800'
+                  : 'rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500'
+              }
+            >
+              View Countries
+            </Link>
+            <Link
+              to="/"
+              className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
+            >
+              Return Home
+            </Link>
+          </>
+        }
+      />
     )
   }
 
@@ -113,9 +171,19 @@ export function CountryOverviewPage() {
 
   if (records.length === 0) {
     return (
-      <p className="text-gray-500 dark:text-gray-400">
-        No climate data available for this country.
-      </p>
+      <FeedbackState
+        variant="empty"
+        title="No records found"
+        description="No climate records match the current selection."
+        actions={
+          <Link
+            to="/countries"
+            className="rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500"
+          >
+            View Countries
+          </Link>
+        }
+      />
     )
   }
 
