@@ -1,0 +1,319 @@
+{
+  "nav": {
+    "home": "Home",
+    "countries": "Countries",
+    "datasets": "Datasets",
+    "about": "About",
+    "aria_label": "Main navigation"
+  },
+  "header": {
+    "logo_alt": "Climate Hub",
+    "home_link_label": "Climate Hub — home"
+  },
+  "footer": {
+    "tagline": "An independent platform for exploring decades of climate and economic data from publicly available international sources.",
+    "tech_stack": "Built with React · TypeScript · Recharts · TanStack Query",
+    "platform_heading": "Platform",
+    "resources_heading": "Resources",
+    "links": {
+      "data_sources": "Data Sources",
+      "methodology": "Methodology",
+      "privacy": "Privacy Policy",
+      "github": "GitHub ↗"
+    },
+    "copyright": "© {{year}} Climate Hub. Public data, freely available.",
+    "data_credits": "Data: World Bank · Our World in Data · EEA · Global Carbon Project"
+  },
+  "home": {
+    "hero": {
+      "badge": "Climate Hub",
+      "headline": "Climate data should not be hidden inside spreadsheets.",
+      "lead": "Climate Hub is an independent platform for exploring decades of climate and economic data. GDP trends, population shifts, and CO₂ emissions — all visualised from publicly available sources.",
+      "subtext": "Built because the data already exists, but access to it is fragmented and difficult to navigate for most people.",
+      "cta_explore": "Explore Countries",
+      "cta_sources": "View Data Sources",
+      "chart": {
+        "metric_label": "Italy — CO₂ Emissions",
+        "period": "1990 – 2019"
+      },
+      "stats": [
+        { "label": "CO₂ 2019", "value": "329 Mt" },
+        { "label": "GDP 2019", "value": "$2.0 T" },
+        { "label": "Population", "value": "60.4 M" }
+      ]
+    },
+    "why": {
+      "title": "Why this project exists",
+      "p1": "Governments, research institutions, and international organisations publish vast amounts of climate and economic data. The World Bank, the European Environment Agency, and national statistical offices maintain decades of historical records that are, in principle, freely available to anyone.",
+      "p2": "In practice, accessing this data meaningfully is not straightforward. It is scattered across different portals, buried in spreadsheets, or locked behind technical formats that require specialist tools to interpret. Most people do not have the time or the background to navigate those systems.",
+      "p3": "Climate Hub brings this data together in a single, visual interface. No registration, no paywall, no preprocessing required. The goal is to make long-term trends visible and accessible to anyone who wants to understand them."
+    },
+    "explore": {
+      "title": "Explore the data directly",
+      "description": "Every country page shows historical trends across GDP, population, and CO₂ emissions. Select any two years to compare and calculate the exact change over the period.",
+      "from": "From",
+      "to": "To",
+      "dataset_label": "Dataset: 1976 – 2019 · 44 records",
+      "caption": "Preview uses real historical data for Italy (1990 – 2019, sourced from World Bank and OWID). All charts are fully interactive in the application.",
+      "metric_badge": "CO₂ Emissions",
+      "metrics_preview": [
+        { "label": "CO₂ Emissions", "value": "329 Mt", "period": "2019", "change": "↓ 23.5% since 1990", "positive": true },
+        { "label": "GDP", "value": "$2.0 T", "period": "2019", "change": "↑ 70.7% since 1990", "positive": false },
+        { "label": "Population", "value": "60.4 M", "period": "2019", "change": "↑ 5.8% since 1990", "positive": false }
+      ]
+    },
+    "capabilities": {
+      "title": "What you can discover",
+      "subtitle": "Four views available on every country page.",
+      "trends": {
+        "title": "Historical trends",
+        "body": "Trace how emissions, GDP, and population have changed over decades for any country in the dataset."
+      },
+      "periods": {
+        "title": "Period comparisons",
+        "body": "Select a start and end year to calculate the exact percentage change across any metric."
+      },
+      "economic": {
+        "title": "Economic indicators",
+        "body": "GDP and population figures alongside environmental metrics, showing where growth and emissions have diverged."
+      },
+      "co2": {
+        "title": "CO₂ emissions",
+        "body": "Annual carbon dioxide output in megatonnes, tracked from the 1970s through the present."
+      }
+    },
+    "personal": {
+      "badge": "A personal note",
+      "title": "Why I built this",
+      "p1": "Climate Hub started as a personal project. I wanted to make climate and economic data easier to explore — not because the data was missing, but because access to it was scattered and frustrating.",
+      "p2": "Public datasets already exist. The World Bank and other organisations publish decades of records. But navigating those portals, finding the right dataset, extracting the numbers you need, and making sense of them over time is a process that excludes most people who are not data specialists.",
+      "p3": "The goal was straightforward: take this publicly available data, put it in a clear visual interface, and make long-term trends readable for anyone."
+    },
+    "sources": {
+      "title": "Where the data comes from",
+      "description": "All data in Climate Hub is sourced from publicly available international datasets. Nothing is modified or reinterpreted.",
+      "visit": "Visit ↗",
+      "disclaimer_label": "Disclaimer.",
+      "disclaimer": "Climate Hub visualises and republishes publicly available data. No original datasets are modified or reinterpreted. All data is provided as-is, as sourced from the organisations listed above. This platform does not make policy recommendations or act as an official data provider.",
+      "list": [
+        { "name": "World Bank Open Data", "detail": "GDP and population statistics by country and year", "url": "https://data.worldbank.org" },
+        { "name": "Our World in Data", "detail": "CO₂ emissions sourced from the Global Carbon Project", "url": "https://ourworldindata.org/co2-emissions" },
+        { "name": "European Environment Agency", "detail": "European environmental indicators and trend datasets", "url": "https://www.eea.europa.eu/data-and-maps" },
+        { "name": "Global Carbon Project", "detail": "Annual global and national carbon budget data", "url": "https://www.globalcarbonproject.org" }
+      ]
+    },
+    "matters": {
+      "title": "Why it matters",
+      "p1": "Long-term climate and economic trends are difficult to hold in perspective without visualisation. A figure like \"CO₂ emissions fell 23% since 2005\" means something very different when you can see the full curve — the years of acceleration, the turning point, and where a country stands today relative to its own history.",
+      "p2": "Climate Hub does not interpret the data or take positions. Its purpose is to make the trends themselves visible, so users can draw their own conclusions from reliable, primary sources. Whether you are a student, a researcher, a journalist, or simply curious about how the world has changed — the data is here and it is yours to explore.",
+      "cta": "Start exploring →"
+    }
+  },
+  "countries": {
+    "title": "Countries",
+    "description": "Explore climate and economic data across the world.",
+    "loading": "Loading countries…",
+    "view_trends": "View Trends →"
+  },
+  "country": {
+    "overview_badge": "Country Overview",
+    "subtitle": "Climate & Economic Trends",
+    "historical_trends": "Historical Trends",
+    "dataset_coverage": "Dataset coverage: {{from}} → {{to}}",
+    "snapshot_heading": "Climate Snapshot — {{year}}",
+    "comparison_heading": "Comparison — {{start}} to {{end}}",
+    "no_data_year": "No data available for {{year}}.",
+    "loading": "Loading climate data…",
+    "no_range_data": "No data available for the selected range.",
+    "metrics": {
+      "gdp": "GDP",
+      "population": "Population",
+      "co2": "CO₂ Emissions"
+    },
+    "snapshot": {
+      "gdp_label": "Gross Domestic Product (GDP)",
+      "gdp_description": "Total value of goods and services produced in a year",
+      "population_label": "Total Population",
+      "population_description": "Estimated number of inhabitants",
+      "co2_label": "CO₂ Emissions",
+      "co2_description": "Annual carbon dioxide output, measured in megatonnes",
+      "co2_unit": "Mt CO₂"
+    },
+    "comparison": {
+      "gdp_label": "GDP Growth",
+      "gdp_description": "Change in economic output from {{start}} to {{end}}",
+      "population_label": "Population Growth",
+      "population_description": "Change in total population from {{start}} to {{end}}",
+      "co2_label": "CO₂ Emissions Change",
+      "co2_description": "Change in annual carbon emissions from {{start}} to {{end}}. A decrease is climate-positive."
+    },
+    "controls": {
+      "start_year": "Start Year",
+      "end_year": "End Year",
+      "metric": "Metric"
+    },
+    "error": {
+      "unavailable_title": "Country unavailable",
+      "unavailable_desc": "We couldn't find climate records for the requested country.",
+      "service_title": "Data service unavailable",
+      "service_desc": "Climate Hub is currently unable to retrieve climate data. Please try again in a few moments.",
+      "generic_title": "Something went wrong",
+      "generic_desc": "An unexpected error occurred while loading this view.",
+      "no_records_title": "No records found",
+      "no_records_desc": "No climate records match the current selection."
+    },
+    "actions": {
+      "view_countries": "View Countries",
+      "retry": "Retry",
+      "return_home": "Return Home",
+      "try_again": "Try Again"
+    }
+  },
+  "about": {
+    "badge": "About",
+    "title": "Climate Hub",
+    "what": {
+      "title": "What this is",
+      "p1": "Climate Hub is a personal, open-access platform for exploring historical climate and economic data. It is not a product, not a company, and not affiliated with any research institution or government body.",
+      "p2": "The platform visualises publicly available datasets — GDP, population, and CO₂ emissions — across a set of countries, covering records from 1976 onwards. All data comes from internationally recognised sources. Nothing is collected from users, and nothing is sold."
+    },
+    "goal": {
+      "title": "Goal",
+      "body": "Public datasets on climate and economic change already exist, but accessing them in a way that is useful to non-specialists is often difficult. The goal of Climate Hub is to make long-term trends visible and easy to explore — without requiring data science tools, portals, or spreadsheet skills."
+    },
+    "data_sources": {
+      "title": "Data sources",
+      "body_prefix": "All data is sourced from publicly available international datasets: World Bank Open Data, Our World in Data (sourcing from the Global Carbon Project), and the European Environment Agency. No original datasets are modified. For full details, see the",
+      "methodology_link": "Methodology page",
+      "body_suffix": "."
+    },
+    "stack": {
+      "title": "Tech stack",
+      "frontend": "Frontend",
+      "charts": "Charts",
+      "data_fetching": "Data fetching",
+      "routing": "Routing",
+      "backend": "Backend",
+      "database": "Database",
+      "icons": "Icons"
+    }
+  },
+  "methodology": {
+    "badge": "Transparency",
+    "title": "Data Methodology",
+    "subtitle": "How Climate Hub sources, processes, and presents data.",
+    "sources": {
+      "title": "Data sources",
+      "description": "Climate Hub uses exclusively publicly available datasets from internationally recognised organisations. No proprietary data is used. The table below lists each source, the metrics derived from it, and its coverage.",
+      "metrics_label": "Metrics",
+      "coverage_label": "Coverage",
+      "visit": "Visit ↗",
+      "list": [
+        { "name": "World Bank Open Data", "url": "https://data.worldbank.org", "metrics": "GDP (current USD), total population", "coverage": "Global, annual records from 1960 onwards" },
+        { "name": "Our World in Data", "url": "https://ourworldindata.org/co2-emissions", "metrics": "Annual CO₂ emissions (tonnes, converted to megatonnes)", "coverage": "Global, compiled from the Global Carbon Project" },
+        { "name": "Global Carbon Project", "url": "https://www.globalcarbonproject.org", "metrics": "National and global carbon budget data", "coverage": "Global, annual from 1959 onwards" },
+        { "name": "European Environment Agency", "url": "https://www.eea.europa.eu/data-and-maps", "metrics": "European environmental indicators", "coverage": "EU member states and candidate countries" }
+      ]
+    },
+    "ingestion": {
+      "title": "Data ingestion",
+      "p1": "Source datasets are fetched from provider APIs or published bulk downloads. Records are mapped to a unified schema — country code (ISO 3166-1 alpha-3), year, GDP (USD), population (persons), and CO₂ emissions (megatonnes CO₂) — and stored in a relational database.",
+      "p2": "Where a source publishes data in a different unit (for example, tonnes of CO₂), values are converted to the display unit during ingestion. No values are otherwise modified, smoothed, or interpolated. If a data point is missing from the source, it is stored as null and displayed as \"—\" in the interface."
+    },
+    "aggregation": {
+      "title": "Aggregation and calculations",
+      "description": "Climate Hub does not produce aggregated or composite metrics beyond what is described below:",
+      "pct_change_label": "Percentage change",
+      "pct_change_calculated_as": "Calculated as",
+      "pct_change_desc": "Applied to GDP, population, and CO₂ between any two user-selected years.",
+      "trend_label": "Trend direction",
+      "trend_desc": "Derived from the first and last valid record in the full dataset for the selected country. Records with all null metric values are excluded from trend calculations."
+    },
+    "visualisation": {
+      "title": "Visualisation",
+      "p1_prefix": "Charts are rendered client-side using",
+      "recharts_label": "Recharts",
+      "p1_suffix": ", an open-source charting library for React. All chart data is fetched directly from the Climate Hub API, which serves records stored in the database with no further transformation applied at the API layer.",
+      "p2": "Year range filters applied in the interface affect which records are displayed in the chart and used for percentage-change calculations. They do not affect the underlying stored data."
+    },
+    "limitations": {
+      "title": "Limitations",
+      "items": [
+        "Data coverage varies by country and metric. Not all countries have records from the earliest available year. Gaps in coverage are shown as null values.",
+        "Source datasets are updated by their respective providers on their own schedules. Climate Hub does not guarantee that the data presented reflects the most recent release from any given source.",
+        "Historical records may be revised by source providers. Climate Hub does not automatically backfill historical revisions once data has been ingested.",
+        "CO₂ emissions data represents territorial emissions and may differ from consumption-based figures published by other organisations.",
+        "GDP figures are expressed in current USD. No purchasing-power or inflation adjustments are applied."
+      ]
+    },
+    "disclaimer": {
+      "title": "Disclaimer",
+      "body": "Climate Hub visualises publicly available datasets from third-party organisations. Data is provided for educational and informational purposes only. While every effort is made to present information accurately, no guarantee is provided regarding completeness, accuracy, or suitability for decision-making. Climate Hub is not affiliated with, endorsed by, or acting as an official agent of any of the source organisations listed above."
+    }
+  },
+  "privacy": {
+    "badge": "Legal",
+    "title": "Privacy Policy",
+    "updated": "Last updated: June 2026",
+    "overview": {
+      "title": "Overview",
+      "body": "Climate Hub is a personal, non-commercial project. It is a read-only data exploration platform. No accounts exist. No personal data is collected, stored, or processed."
+    },
+    "no_account": {
+      "title": "No account required",
+      "body": "Climate Hub requires no registration, login, or account of any kind. All content on this platform is freely accessible without providing any personal information."
+    },
+    "no_data": {
+      "title": "No personal data collected",
+      "p1": "Climate Hub does not collect, store, or process any personal data. This includes names, email addresses, IP addresses, device identifiers, and any other information that could identify an individual.",
+      "p2": "No forms exist on this platform. No data is submitted by users and no data is retained server-side beyond what is necessary to serve each HTTP request."
+    },
+    "no_ads": {
+      "title": "No advertising or tracking",
+      "body": "Climate Hub does not use advertising networks, marketing trackers, or third-party analytics platforms. There are no pixels, beacons, or fingerprinting scripts of any kind."
+    },
+    "cookies": {
+      "title": "Cookies",
+      "body": "Climate Hub does not set cookies for profiling, tracking, or advertising purposes. If the browser sets any technical cookies (for example, related to session handling or preferences), these are not used to identify users or build profiles."
+    },
+    "external_links": {
+      "title": "External links",
+      "body": "This platform contains links to external websites, including data sources such as the World Bank, Our World in Data, and the European Environment Agency. Climate Hub has no control over and accepts no responsibility for the privacy practices of those external sites. Users are encouraged to review the privacy policies of any third-party sites they visit."
+    },
+    "analytics": {
+      "title": "Analytics",
+      "body": "At the time of this writing, Climate Hub does not use any analytics service. If analytics are introduced in the future, this policy will be updated to reflect the nature and scope of data collected, and users will be informed before any tracking begins."
+    },
+    "contact": {
+      "title": "Contact",
+      "body_prefix": "Questions about this policy can be directed to the project maintainer via the",
+      "github_label": "GitHub repository",
+      "body_suffix": "."
+    }
+  },
+  "datasets": {
+    "title": "Datasets",
+    "coming_soon": "Browse available climate datasets — coming soon."
+  },
+  "feedback": {
+    "not_found": {
+      "title": "Page not found",
+      "description": "The page you're looking for doesn't exist or may have been moved."
+    },
+    "error": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred while loading this view.",
+      "with_status": "Error {{status}}"
+    },
+    "boundary": {
+      "title": "Something went wrong",
+      "description": "An unexpected error occurred while loading this view."
+    }
+  },
+  "common": {
+    "retry": "Retry",
+    "return_home": "Return Home",
+    "try_again": "Try Again",
+    "view_countries": "View Countries"
+  }
+}
