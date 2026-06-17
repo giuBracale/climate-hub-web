@@ -23,3 +23,7 @@ apiClient.interceptors.response.use(
     return Promise.reject(new Error(message))
   },
 )
+
+export function warmUpBackend(): void {
+  apiClient.get('/health').catch(() => {})
+}

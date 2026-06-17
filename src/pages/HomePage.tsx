@@ -1,8 +1,10 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { TrendingUp, CalendarRange, Landmark, Leaf } from 'lucide-react'
 import type { ComponentType } from 'react'
 import type { LucideProps } from 'lucide-react'
+import { warmUpBackend } from '../services/api'
 import {
   ResponsiveContainer,
   LineChart,
@@ -43,6 +45,10 @@ type HeroStat = { label: string; value: string }
 
 export function HomePage() {
   const { t } = useTranslation()
+
+  useEffect(() => {
+    warmUpBackend()
+  }, [])
 
   const dataSources = t('home.sources.list', { returnObjects: true }) as DataSource[]
   const metricsPreview = t('home.explore.metrics_preview', { returnObjects: true }) as MetricPreview[]
