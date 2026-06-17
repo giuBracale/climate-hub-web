@@ -1,22 +1,24 @@
 import { useRouteError, isRouteErrorResponse, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { FeedbackState } from '../components/FeedbackState'
 import type { FeedbackVariant } from '../components/FeedbackState'
 
 export function ErrorPage() {
+  const { t } = useTranslation()
   const error = useRouteError()
   const is404 = isRouteErrorResponse(error) && error.status === 404
 
   const variant: FeedbackVariant = is404 ? 'not-found' : 'error'
 
   const title = is404
-    ? 'Page not found'
+    ? t('feedback.not_found.title')
     : isRouteErrorResponse(error)
-      ? `Error ${error.status}`
-      : 'Something went wrong'
+      ? t('feedback.error.with_status', { status: error.status })
+      : t('feedback.error.title')
 
   const description = is404
-    ? "The page you're looking for doesn't exist or may have been moved."
-    : 'An unexpected error occurred while loading this view.'
+    ? t('feedback.not_found.description')
+    : t('feedback.error.description')
 
   return (
     <FeedbackState
@@ -29,7 +31,7 @@ export function ErrorPage() {
           to="/"
           className="rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500"
         >
-          Return Home
+          {t('common.return_home')}
         </Link>
       }
     />
