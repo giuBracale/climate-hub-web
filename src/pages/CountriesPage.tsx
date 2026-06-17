@@ -2,7 +2,8 @@ import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useCountries } from '../features/countries/useCountries'
 import { CountriesGrid } from '../features/countries/CountriesGrid'
-import { FeedbackState, classifyApiError } from '../components/FeedbackState'
+import { FeedbackState } from '../components/FeedbackState'
+import { classifyApiError } from '../utils/feedbackUtils'
 
 export function CountriesPage() {
   const { t } = useTranslation()

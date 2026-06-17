@@ -1,7 +1,7 @@
 import { useRouteError, isRouteErrorResponse, Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { FeedbackState } from '../components/FeedbackState'
-import type { FeedbackVariant } from '../components/FeedbackState'
+import type { FeedbackVariant } from '../utils/feedbackUtils'
 
 export function ErrorPage() {
   const { t } = useTranslation()
