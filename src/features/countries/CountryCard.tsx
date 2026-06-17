@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import type { Country } from './countries.types'
 
 interface CountryCardProps {
@@ -6,6 +7,7 @@ interface CountryCardProps {
 }
 
 export function CountryCard({ country }: CountryCardProps) {
+  const { t } = useTranslation()
   return (
     <Link
       to={`/countries/${country.code}`}
@@ -18,7 +20,7 @@ export function CountryCard({ country }: CountryCardProps) {
         {country.name ?? country.code}
       </span>
       <span className="mt-1 text-xs font-medium text-sky-500 opacity-0 transition-opacity duration-150 group-hover:opacity-100 dark:text-sky-400">
-        View Trends →
+        {t('countries.view_trends')}
       </span>
     </Link>
   )

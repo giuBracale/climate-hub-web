@@ -1,22 +1,26 @@
-const stack = [
-  { label: 'Frontend', value: 'React 19, TypeScript, Vite, Tailwind CSS v4' },
-  { label: 'Charts', value: 'Recharts' },
-  { label: 'Data fetching', value: 'TanStack Query, Axios' },
-  { label: 'Routing', value: 'React Router v7' },
-  { label: 'Backend', value: 'Node.js, Express 5, TypeScript' },
-  { label: 'Database', value: 'PostgreSQL via Prisma ORM' },
-  { label: 'Icons', value: 'Lucide React' },
+import { useTranslation } from 'react-i18next'
+
+const STACK_KEYS = [
+  { key: 'frontend', value: 'React 19, TypeScript, Vite, Tailwind CSS v4' },
+  { key: 'charts', value: 'Recharts' },
+  { key: 'data_fetching', value: 'TanStack Query, Axios' },
+  { key: 'routing', value: 'React Router v7' },
+  { key: 'backend', value: 'Node.js, Express 5, TypeScript' },
+  { key: 'database', value: 'PostgreSQL via Prisma ORM' },
+  { key: 'icons', value: 'Lucide React' },
 ]
 
 export function AboutPage() {
+  const { t } = useTranslation()
+
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-10">
         <p className="text-xs font-semibold uppercase tracking-widest text-sky-500 dark:text-sky-400">
-          About
+          {t('about.badge')}
         </p>
         <h1 className="mt-3 text-3xl font-bold text-gray-900 dark:text-white">
-          Climate Hub
+          {t('about.title')}
         </h1>
       </div>
 
@@ -24,67 +28,47 @@ export function AboutPage() {
 
         <section>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            What this is
+            {t('about.what.title')}
           </h2>
-          <p className="mt-3">
-            Climate Hub is a personal, open-access platform for exploring
-            historical climate and economic data. It is not a product, not a
-            company, and not affiliated with any research institution or
-            government body.
-          </p>
-          <p className="mt-3">
-            The platform visualises publicly available datasets — GDP,
-            population, and CO₂ emissions — across a set of countries, covering
-            records from 1976 onwards. All data comes from internationally
-            recognised sources. Nothing is collected from users, and nothing is
-            sold.
-          </p>
+          <p className="mt-3">{t('about.what.p1')}</p>
+          <p className="mt-3">{t('about.what.p2')}</p>
         </section>
 
         <section>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Goal
+            {t('about.goal.title')}
           </h2>
-          <p className="mt-3">
-            Public datasets on climate and economic change already exist, but
-            accessing them in a way that is useful to non-specialists is often
-            difficult. The goal of Climate Hub is to make long-term trends
-            visible and easy to explore — without requiring data science tools,
-            portals, or spreadsheet skills.
-          </p>
+          <p className="mt-3">{t('about.goal.body')}</p>
         </section>
 
         <section>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Data sources
+            {t('about.data_sources.title')}
           </h2>
           <p className="mt-3">
-            All data is sourced from publicly available international datasets:
-            World Bank Open Data, Our World in Data (sourcing from the Global
-            Carbon Project), and the European Environment Agency. No original
-            datasets are modified. For full details, see the{' '}
+            {t('about.data_sources.body_prefix')}{' '}
             <a
               href="/methodology"
               className="font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400"
             >
-              Methodology page
+              {t('about.data_sources.methodology_link')}
             </a>
-            .
+            {t('about.data_sources.body_suffix')}
           </p>
         </section>
 
         <section>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-            Tech stack
+            {t('about.stack.title')}
           </h2>
           <div className="mt-4 divide-y divide-gray-100 rounded-xl border border-gray-100 dark:divide-gray-700 dark:border-gray-700">
-            {stack.map(({ label, value }) => (
+            {STACK_KEYS.map(({ key, value }) => (
               <div
-                key={label}
+                key={key}
                 className="flex items-start justify-between gap-6 px-5 py-3"
               >
                 <span className="shrink-0 text-sm font-medium text-gray-700 dark:text-gray-300">
-                  {label}
+                  {t(`about.stack.${key}`)}
                 </span>
                 <span className="text-right text-sm text-gray-500 dark:text-gray-400">
                   {value}

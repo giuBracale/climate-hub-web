@@ -1,5 +1,5 @@
+import { useTranslation } from 'react-i18next'
 import type { ChartMetric } from './chart.utils'
-import { METRIC_LABELS } from './chart.utils'
 
 interface MetricSelectorProps {
   value: ChartMetric
@@ -9,10 +9,11 @@ interface MetricSelectorProps {
 const METRICS: ChartMetric[] = ['gdp', 'population', 'co2']
 
 export function MetricSelector({ value, onChange }: MetricSelectorProps) {
+  const { t } = useTranslation()
   return (
     <div className="flex flex-col gap-1.5">
       <label className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
-        Metric
+        {t('country.controls.metric')}
       </label>
       <select
         value={value}
@@ -21,7 +22,7 @@ export function MetricSelector({ value, onChange }: MetricSelectorProps) {
       >
         {METRICS.map((key) => (
           <option key={key} value={key}>
-            {METRIC_LABELS[key]}
+            {t(`country.metrics.${key}`)}
           </option>
         ))}
       </select>

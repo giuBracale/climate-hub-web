@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import {
   ResponsiveContainer,
   LineChart,
@@ -17,11 +18,13 @@ interface TrendChartProps {
 }
 
 export function TrendChart({ data, metric, label }: TrendChartProps) {
+  const { t } = useTranslation()
+
   if (data.length === 0) {
     return (
       <div className="flex h-64 items-center justify-center">
         <p className="text-sm text-gray-400 dark:text-gray-500">
-          No data available for the selected range.
+          {t('country.no_range_data')}
         </p>
       </div>
     )

@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
+import { useTranslation } from 'react-i18next'
 import { FeedbackState, classifyApiError } from '../components/FeedbackState'
 import { useCountryHistory } from '../features/country-detail/useCountryHistory'
 import { CountryHeader } from '../features/country-detail/CountryHeader'
@@ -12,10 +13,7 @@ import {
   calculatePercentageChange,
   findRecordByYear,
 } from '../features/country-detail/countryDetail.utils'
-import {
-  toChartData,
-  METRIC_LABELS,
-} from '../features/country-detail/chart.utils'
+import { toChartData } from '../features/country-detail/chart.utils'
 import type { ChartMetric } from '../features/country-detail/chart.utils'
 import type { MetricCardProps } from '../features/country-detail/MetricCard'
 import type { Country } from '../features/countries/countries.types'
@@ -59,6 +57,7 @@ function changeSentiment(
 export function CountryOverviewPage() {
   const { country } = useParams<{ country: string }>()
   const queryClient = useQueryClient()
+  const { t } = useTranslation()
 
   // All hooks before any early returns
   const history = useCountryHistory(country)
@@ -94,14 +93,14 @@ export function CountryOverviewPage() {
     return (
       <FeedbackState
         variant="not-found"
-        title="Country unavailable"
-        description="We couldn't find climate records for the requested country."
+        title={t('country.error.unavailable_title')}
+        description={t('country.error.unavailable_desc')}
         actions={
           <Link
             to="/countries"
             className="rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500"
           >
-            View Countries
+            {t('country.actions.view_countries')}
           </Link>
         }
       />
@@ -110,7 +109,7 @@ export function CountryOverviewPage() {
 
   if (history.isLoading) {
     return (
-      <p className="text-gray-500 dark:text-gray-400">Loading climate data…</p>
+      <p className="text-gray-500 dark:text-gray-400">{t('country.loading')}</p>
     )
   }
 
@@ -123,17 +122,17 @@ export function CountryOverviewPage() {
         variant={variant}
         title={
           isNotFound
-            ? 'Country unavailable'
+            ? t('country.error.unavailable_title')
             : isNetwork
-              ? 'Data service unavailable'
-              : 'Something went wrong'
+              ? t('country.error.service_title')
+              : t('country.error.generic_title')
         }
         description={
           isNotFound
-            ? "We couldn't find climate records for the requested country."
+            ? t('country.error.unavailable_desc')
             : isNetwork
-              ? 'Climate Hub is currently unable to retrieve climate data. Please try again in a few moments.'
-              : 'An unexpected error occurred while loading this view.'
+              ? t('country.error.service_desc')
+              : t('country.error.generic_desc')
         }
         actions={
           <>
@@ -142,7 +141,7 @@ export function CountryOverviewPage() {
                 onClick={() => history.refetch()}
                 className="rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500"
               >
-                Retry
+                {t('country.actions.retry')}
               </button>
             )}
             <Link
@@ -153,13 +152,13 @@ export function CountryOverviewPage() {
                   : 'rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500'
               }
             >
-              View Countries
+              {t('country.actions.view_countries')}
             </Link>
             <Link
               to="/"
               className="rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
             >
-              Return Home
+              {t('country.actions.return_home')}
             </Link>
           </>
         }
@@ -173,14 +172,14 @@ export function CountryOverviewPage() {
     return (
       <FeedbackState
         variant="empty"
-        title="No records found"
-        description="No climate records match the current selection."
+        title={t('country.error.no_records_title')}
+        description={t('country.error.no_records_desc')}
         actions={
           <Link
             to="/countries"
             className="rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500"
           >
-            View Countries
+            {t('country.actions.view_countries')}
           </Link>
         }
       />
@@ -208,6 +207,8 @@ export function CountryOverviewPage() {
     endRecord?.co2 ?? null,
   )
 
+  const metricLabel = t(`country.metrics.${metric}`)
+
   return (
     <div className="space-y-8">
       <CountryHeader
@@ -219,13 +220,13 @@ export function CountryOverviewPage() {
       {/* Controls */}
       <div className="flex flex-wrap items-end gap-4 rounded-xl border border-gray-100 bg-white px-6 py-4 shadow-sm dark:border-gray-700 dark:bg-gray-900">
         <YearSelector
-          label="Start Year"
+          label={t('country.controls.start_year')}
           years={startYearOptions}
           value={effectiveStart}
           onChange={setStartYear}
         />
         <YearSelector
-          label="End Year"
+          label={t('country.controls.end_year')}
           years={endYearOptions}
           value={effectiveEnd}
           onChange={setEndYear}
@@ -241,17 +242,17 @@ export function CountryOverviewPage() {
             id="trends-heading"
             className="text-xl font-semibold text-gray-800 dark:text-gray-100"
           >
-            Historical Trends
+            {t('country.historical_trends')}
           </h2>
           <span className="text-sm text-gray-400 dark:text-gray-500">
-            Dataset coverage: {minYear} → {maxYear}
+            {t('country.dataset_coverage', { from: minYear, to: maxYear })}
           </span>
         </div>
         <div className="rounded-xl border border-gray-100 bg-white p-6 shadow-md dark:border-gray-700 dark:bg-gray-900">
           <TrendChart
             data={chartData}
             metric={metric}
-            label={METRIC_LABELS[metric]}
+            label={metricLabel}
           />
         </div>
       </section>
@@ -262,30 +263,30 @@ export function CountryOverviewPage() {
           id="snapshot-heading"
           className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100"
         >
-          Climate Snapshot — {effectiveEnd}
+          {t('country.snapshot_heading', { year: effectiveEnd })}
         </h2>
         {endRecord !== undefined ? (
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
             <MetricCard
-              label="Gross Domestic Product (GDP)"
+              label={t('country.snapshot.gdp_label')}
               value={formatGdp(endRecord.gdp)}
-              description="Total value of goods and services produced in a year"
+              description={t('country.snapshot.gdp_description')}
             />
             <MetricCard
-              label="Total Population"
+              label={t('country.snapshot.population_label')}
               value={formatPopulation(endRecord.population)}
-              description="Estimated number of inhabitants"
+              description={t('country.snapshot.population_description')}
             />
             <MetricCard
-              label="CO₂ Emissions"
+              label={t('country.snapshot.co2_label')}
               value={formatCo2(endRecord.co2)}
-              unit="Mt CO₂"
-              description="Annual carbon dioxide output, measured in megatonnes"
+              unit={t('country.snapshot.co2_unit')}
+              description={t('country.snapshot.co2_description')}
             />
           </div>
         ) : (
           <p className="text-gray-500 dark:text-gray-400">
-            No data available for {effectiveEnd}.
+            {t('country.no_data_year', { year: effectiveEnd })}
           </p>
         )}
       </section>
@@ -296,28 +297,28 @@ export function CountryOverviewPage() {
           id="comparison-heading"
           className="mb-4 text-xl font-semibold text-gray-800 dark:text-gray-100"
         >
-          Comparison — {effectiveStart} to {effectiveEnd}
+          {t('country.comparison_heading', { start: effectiveStart, end: effectiveEnd })}
         </h2>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           <MetricCard
-            label="GDP Growth"
+            label={t('country.comparison.gdp_label')}
             value={formatChange(gdpChange)}
             sentiment={changeSentiment(gdpChange, true)}
-            description={`Change in economic output from ${effectiveStart} to ${effectiveEnd}`}
+            description={t('country.comparison.gdp_description', { start: effectiveStart, end: effectiveEnd })}
             emphasized
           />
           <MetricCard
-            label="Population Growth"
+            label={t('country.comparison.population_label')}
             value={formatChange(populationChange)}
             sentiment={changeSentiment(populationChange, true)}
-            description={`Change in total population from ${effectiveStart} to ${effectiveEnd}`}
+            description={t('country.comparison.population_description', { start: effectiveStart, end: effectiveEnd })}
             emphasized
           />
           <MetricCard
-            label="CO₂ Emissions Change"
+            label={t('country.comparison.co2_label')}
             value={formatChange(co2Change)}
             sentiment={changeSentiment(co2Change, false)}
-            description={`Change in annual carbon emissions from ${effectiveStart} to ${effectiveEnd}. A decrease is climate-positive.`}
+            description={t('country.comparison.co2_description', { start: effectiveStart, end: effectiveEnd })}
             emphasized
           />
         </div>

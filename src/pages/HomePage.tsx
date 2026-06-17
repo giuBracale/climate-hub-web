@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { TrendingUp, CalendarRange, Landmark, Leaf } from 'lucide-react'
+import type { ComponentType } from 'react'
+import type { LucideProps } from 'lucide-react'
 import {
   ResponsiveContainer,
   LineChart,
@@ -25,53 +28,26 @@ const CO2_PREVIEW = [
   { year: 2019, value: 329 },
 ]
 
-const CAPABILITIES = [
-  {
-    Icon: TrendingUp,
-    title: 'Historical trends',
-    body: 'Trace how emissions, GDP, and population have changed over decades for any country in the dataset.',
-  },
-  {
-    Icon: CalendarRange,
-    title: 'Period comparisons',
-    body: 'Select a start and end year to calculate the exact percentage change across any metric.',
-  },
-  {
-    Icon: Landmark,
-    title: 'Economic indicators',
-    body: 'GDP and population figures alongside environmental metrics, showing where growth and emissions have diverged.',
-  },
-  {
-    Icon: Leaf,
-    title: 'CO₂ emissions',
-    body: 'Annual carbon dioxide output in megatonnes, tracked from the 1970s through the present.',
-  },
-]
+const CAPABILITY_ICONS: Record<string, ComponentType<LucideProps>> = {
+  trends: TrendingUp,
+  periods: CalendarRange,
+  economic: Landmark,
+  co2: Leaf,
+}
 
-const DATA_SOURCES = [
-  {
-    name: 'World Bank Open Data',
-    detail: 'GDP and population statistics by country and year',
-    url: 'https://data.worldbank.org',
-  },
-  {
-    name: 'Our World in Data',
-    detail: 'CO₂ emissions sourced from the Global Carbon Project',
-    url: 'https://ourworldindata.org/co2-emissions',
-  },
-  {
-    name: 'European Environment Agency',
-    detail: 'European environmental indicators and trend datasets',
-    url: 'https://www.eea.europa.eu/data-and-maps',
-  },
-  {
-    name: 'Global Carbon Project',
-    detail: 'Annual global and national carbon budget data',
-    url: 'https://www.globalcarbonproject.org',
-  },
-]
+const CAPABILITY_KEYS = ['trends', 'periods', 'economic', 'co2'] as const
+
+type DataSource = { name: string; detail: string; url: string }
+type MetricPreview = { label: string; value: string; period: string; change: string; positive: boolean }
+type HeroStat = { label: string; value: string }
 
 export function HomePage() {
+  const { t } = useTranslation()
+
+  const dataSources = t('home.sources.list', { returnObjects: true }) as DataSource[]
+  const metricsPreview = t('home.explore.metrics_preview', { returnObjects: true }) as MetricPreview[]
+  const heroStats = t('home.hero.stats', { returnObjects: true }) as HeroStat[]
+
   return (
     <div>
 
@@ -83,33 +59,29 @@ export function HomePage() {
             {/* Left – mission */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-sky-500 dark:text-sky-400">
-                Climate Hub
+                {t('home.hero.badge')}
               </p>
               <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight text-gray-900 dark:text-white sm:text-5xl">
-                Climate data should not be hidden inside spreadsheets.
+                {t('home.hero.headline')}
               </h1>
               <p className="mt-6 text-lg leading-relaxed text-gray-600 dark:text-gray-400">
-                Climate Hub is an independent platform for exploring decades of
-                climate and economic data across countries. GDP trends,
-                population shifts, and CO₂ emissions — all visualised from
-                publicly available sources.
+                {t('home.hero.lead')}
               </p>
               <p className="mt-4 text-base leading-relaxed text-gray-500 dark:text-gray-500">
-                Built because the data already exists, but access to it is
-                fragmented and difficult to navigate for most people.
+                {t('home.hero.subtext')}
               </p>
               <div className="mt-10 flex flex-wrap gap-3">
                 <Link
                   to="/countries"
                   className="rounded-lg bg-sky-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-sky-500 hover:shadow-md"
                 >
-                  Explore Countries
+                  {t('home.hero.cta_explore')}
                 </Link>
                 <a
                   href="#data-sources"
                   className="rounded-lg border border-gray-200 bg-white px-6 py-3 text-sm font-semibold text-gray-700 shadow-sm hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
                 >
-                  View Data Sources
+                  {t('home.hero.cta_sources')}
                 </a>
               </div>
             </div>
@@ -122,11 +94,11 @@ export function HomePage() {
                     ITA
                   </span>
                   <p className="text-sm font-semibold text-gray-800 dark:text-white">
-                    Italy — CO₂ Emissions
+                    {t('home.hero.chart.metric_label')}
                   </p>
                 </div>
                 <span className="rounded-full bg-sky-50 px-2.5 py-1 text-xs font-medium text-sky-600 dark:bg-sky-900/30 dark:text-sky-300">
-                  1990 – 2019
+                  {t('home.hero.chart.period')}
                 </span>
               </div>
               <ResponsiveContainer width="100%" height={156}>
@@ -162,11 +134,7 @@ export function HomePage() {
                 </LineChart>
               </ResponsiveContainer>
               <div className="mt-4 grid grid-cols-3 gap-2">
-                {[
-                  { label: 'CO₂ 2019', value: '329 Mt' },
-                  { label: 'GDP 2019', value: '$2.0 T' },
-                  { label: 'Population', value: '60.4 M' },
-                ].map(({ label, value }) => (
+                {heroStats.map(({ label, value }) => (
                   <div
                     key={label}
                     className="rounded-xl bg-sky-50 p-3 text-center dark:bg-gray-700"
@@ -190,29 +158,12 @@ export function HomePage() {
       <section className="py-16">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Why this project exists
+            {t('home.why.title')}
           </h2>
           <div className="mt-6 space-y-4 text-base leading-relaxed text-gray-600 dark:text-gray-400">
-            <p>
-              Governments, research institutions, and international
-              organisations publish vast amounts of climate and economic data.
-              The World Bank, the European Environment Agency, and national
-              statistical offices maintain decades of historical records that
-              are, in principle, freely available to anyone.
-            </p>
-            <p>
-              In practice, accessing this data meaningfully is not
-              straightforward. It is scattered across different portals, buried
-              in spreadsheets, or locked behind technical formats that require
-              specialist tools to interpret. Most people do not have the time or
-              the background to navigate those systems.
-            </p>
-            <p>
-              Climate Hub brings this data together in a single, visual
-              interface. No registration, no paywall, no preprocessing required.
-              The goal is to make long-term trends visible and accessible to
-              anyone who wants to understand them.
-            </p>
+            <p>{t('home.why.p1')}</p>
+            <p>{t('home.why.p2')}</p>
+            <p>{t('home.why.p3')}</p>
           </div>
         </div>
       </section>
@@ -222,12 +173,10 @@ export function HomePage() {
         <div className="mx-auto max-w-5xl">
           <div className="mb-8 max-w-xl">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-              Explore the data directly
+              {t('home.explore.title')}
             </h2>
             <p className="mt-2 text-base text-gray-500 dark:text-gray-400">
-              Every country page shows historical trends across GDP, population,
-              and CO₂ emissions. Select any two years to compare and calculate
-              the exact change over the period.
+              {t('home.explore.description')}
             </p>
           </div>
 
@@ -245,20 +194,20 @@ export function HomePage() {
                     Italy
                   </h3>
                   <p className="text-xs text-gray-400 dark:text-gray-500">
-                    Dataset: 1976 – 2019 &nbsp;·&nbsp; 44 records
+                    {t('home.explore.dataset_label')}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="flex items-center gap-1.5 rounded-md border border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-600 dark:bg-gray-700">
-                    <span className="text-xs text-gray-400">From</span>
+                    <span className="text-xs text-gray-400">{t('home.explore.from')}</span>
                     <span className="text-xs font-medium text-gray-700 dark:text-gray-200">1990</span>
                   </div>
                   <div className="flex items-center gap-1.5 rounded-md border border-gray-200 bg-gray-50 px-3 py-1.5 dark:border-gray-600 dark:bg-gray-700">
-                    <span className="text-xs text-gray-400">To</span>
+                    <span className="text-xs text-gray-400">{t('home.explore.to')}</span>
                     <span className="text-xs font-medium text-gray-700 dark:text-gray-200">2019</span>
                   </div>
                   <span className="rounded-md border border-sky-200 bg-sky-50 px-3 py-1.5 text-xs font-medium text-sky-700 dark:border-sky-700 dark:bg-sky-900/30 dark:text-sky-300">
-                    CO₂ Emissions
+                    {t('home.explore.metric_badge')}
                   </span>
                 </div>
               </div>
@@ -305,29 +254,7 @@ export function HomePage() {
 
             {/* Metric row */}
             <div className="grid grid-cols-1 divide-y divide-gray-100 border-t border-gray-100 bg-white dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-800 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
-              {[
-                {
-                  label: 'CO₂ Emissions',
-                  value: '329 Mt',
-                  period: '2019',
-                  change: '↓ 23.5% since 1990',
-                  positive: true,
-                },
-                {
-                  label: 'GDP',
-                  value: '$2.0 T',
-                  period: '2019',
-                  change: '↑ 70.7% since 1990',
-                  positive: false,
-                },
-                {
-                  label: 'Population',
-                  value: '60.4 M',
-                  period: '2019',
-                  change: '↑ 5.8% since 1990',
-                  positive: false,
-                },
-              ].map(({ label, value, period, change, positive }) => (
+              {metricsPreview.map(({ label, value, period, change, positive }) => (
                 <div key={label} className="p-5">
                   <p className="text-xs font-semibold uppercase tracking-widest text-gray-400 dark:text-gray-500">
                     {label}
@@ -349,8 +276,7 @@ export function HomePage() {
           </div>
 
           <p className="mt-4 text-center text-xs text-gray-400 dark:text-gray-500">
-            Preview uses real historical data for Italy (1990 – 2019, sourced from World Bank and OWID).
-            All charts are fully interactive in the application.
+            {t('home.explore.caption')}
           </p>
         </div>
       </section>
@@ -359,30 +285,33 @@ export function HomePage() {
       <section className="py-16">
         <div className="mx-auto max-w-5xl">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            What you can discover
+            {t('home.capabilities.title')}
           </h2>
           <p className="mt-2 text-base text-gray-500 dark:text-gray-400">
-            Four views available on every country page.
+            {t('home.capabilities.subtitle')}
           </p>
           <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {CAPABILITIES.map(({ Icon, title, body }) => (
-              <div
-                key={title}
-                className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900"
-              >
-                <Icon
-                  className="h-5 w-5 text-sky-500 dark:text-sky-400"
-                  strokeWidth={1.75}
-                  aria-hidden="true"
-                />
-                <h3 className="mt-4 text-sm font-semibold text-gray-900 dark:text-white">
-                  {title}
-                </h3>
-                <p className="mt-1.5 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-                  {body}
-                </p>
-              </div>
-            ))}
+            {CAPABILITY_KEYS.map((key) => {
+              const Icon = CAPABILITY_ICONS[key]
+              return (
+                <div
+                  key={key}
+                  className="rounded-xl border border-gray-100 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-900"
+                >
+                  <Icon
+                    className="h-5 w-5 text-sky-500 dark:text-sky-400"
+                    strokeWidth={1.75}
+                    aria-hidden="true"
+                  />
+                  <h3 className="mt-4 text-sm font-semibold text-gray-900 dark:text-white">
+                    {t(`home.capabilities.${key}.title`)}
+                  </h3>
+                  <p className="mt-1.5 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
+                    {t(`home.capabilities.${key}.body`)}
+                  </p>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
@@ -391,30 +320,15 @@ export function HomePage() {
       <section className="py-12">
         <div className="mx-auto max-w-3xl">
           <p className="text-xs font-semibold uppercase tracking-widest text-sky-500 dark:text-sky-400">
-            A personal note
+            {t('home.personal.badge')}
           </p>
           <h2 className="mt-3 text-2xl font-bold text-gray-900 dark:text-white">
-            Why I built this
+            {t('home.personal.title')}
           </h2>
           <div className="mt-5 space-y-4 text-base leading-relaxed text-gray-600 dark:text-gray-400">
-            <p>
-              Climate Hub started as a personal project. I wanted to make
-              climate and economic data easier to explore — not because the data
-              was missing, but because access to it was scattered and
-              frustrating.
-            </p>
-            <p>
-              Public datasets already exist. The World Bank and other
-              organisations publish decades of records. But navigating those
-              portals, finding the right dataset, extracting the numbers you
-              need, and making sense of them over time is a process that
-              excludes most people who are not data specialists.
-            </p>
-            <p>
-              The goal was straightforward: take this publicly available data,
-              put it in a clear visual interface, and make long-term trends
-              readable for anyone.
-            </p>
+            <p>{t('home.personal.p1')}</p>
+            <p>{t('home.personal.p2')}</p>
+            <p>{t('home.personal.p3')}</p>
           </div>
         </div>
       </section>
@@ -426,15 +340,14 @@ export function HomePage() {
       >
         <div className="mx-auto max-w-3xl">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Where the data comes from
+            {t('home.sources.title')}
           </h2>
           <p className="mt-2 text-base text-gray-500 dark:text-gray-400">
-            All data in Climate Hub is sourced from publicly available
-            international datasets. Nothing is modified or reinterpreted.
+            {t('home.sources.description')}
           </p>
 
           <div className="mt-8 divide-y divide-gray-100 rounded-xl border border-gray-100 dark:divide-gray-700 dark:border-gray-700">
-            {DATA_SOURCES.map(({ name, detail, url }) => (
+            {dataSources.map(({ name, detail, url }) => (
               <div
                 key={name}
                 className="flex items-start justify-between gap-6 px-5 py-4"
@@ -453,7 +366,7 @@ export function HomePage() {
                   rel="noopener noreferrer"
                   className="shrink-0 text-xs font-medium text-sky-600 hover:text-sky-500 dark:text-sky-400 dark:hover:text-sky-300"
                 >
-                  Visit ↗
+                  {t('home.sources.visit')}
                 </a>
               </div>
             ))}
@@ -462,13 +375,9 @@ export function HomePage() {
           <div className="mt-5 rounded-xl border border-gray-100 bg-gray-50 px-5 py-4 dark:border-gray-700 dark:bg-gray-800">
             <p className="text-xs leading-relaxed text-gray-500 dark:text-gray-400">
               <span className="font-semibold text-gray-700 dark:text-gray-300">
-                Disclaimer.
+                {t('home.sources.disclaimer_label')}
               </span>{' '}
-              Climate Hub visualises and republishes publicly available data. No
-              original datasets are modified or reinterpreted. All data is
-              provided as-is, as sourced from the organisations listed above.
-              This platform does not make policy recommendations or act as an
-              official data provider.
+              {t('home.sources.disclaimer')}
             </p>
           </div>
         </div>
@@ -478,31 +387,18 @@ export function HomePage() {
       <section className="py-16">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
-            Why it matters
+            {t('home.matters.title')}
           </h2>
           <div className="mt-6 space-y-4 text-base leading-relaxed text-gray-600 dark:text-gray-400">
-            <p>
-              Long-term climate and economic trends are difficult to hold in
-              perspective without visualisation. A figure like "CO₂ emissions
-              fell 23% since 2005" means something very different when you can
-              see the full curve — the years of acceleration, the turning point,
-              and where a country stands today relative to its own history.
-            </p>
-            <p>
-              Climate Hub does not interpret the data or take positions. Its
-              purpose is to make the trends themselves visible, so users can
-              draw their own conclusions from reliable, primary sources. Whether
-              you are a student, a researcher, a journalist, or simply curious
-              about how the world has changed — the data is here and it is
-              yours to explore.
-            </p>
+            <p>{t('home.matters.p1')}</p>
+            <p>{t('home.matters.p2')}</p>
           </div>
           <div className="mt-10">
             <Link
               to="/countries"
               className="inline-flex items-center rounded-lg bg-sky-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-transform hover:-translate-y-0.5 hover:bg-sky-500 hover:shadow-md"
             >
-              Start exploring →
+              {t('home.matters.cta')}
             </Link>
           </div>
         </div>
