@@ -1,17 +1,24 @@
 import { Fragment } from 'react'
 import { useTranslation } from 'react-i18next'
 
-const LANGUAGES = ['it', 'en'] as const
+const LANGUAGES = ['it', 'es', 'en'] as const
 type Lang = (typeof LANGUAGES)[number]
 
 const LANG_LABELS: Record<Lang, string> = {
   it: 'Italiano',
   en: 'English',
+  es: 'Español',
+}
+
+function detectLang(lng: string | undefined): Lang {
+  if (lng?.startsWith('it')) return 'it'
+  if (lng?.startsWith('es')) return 'es'
+  return 'en'
 }
 
 export function LanguageSwitcher() {
   const { i18n } = useTranslation()
-  const current: Lang = i18n.language?.startsWith('it') ? 'it' : 'en'
+  const current: Lang = detectLang(i18n.language)
 
   return (
     <div
