@@ -113,7 +113,9 @@
     "title": "Countries",
     "description": "Explore climate and economic data across the world.",
     "loading": "Loading countries…",
-    "view_trends": "View Trends →"
+    "view_trends": "View Trends →",
+    "search_placeholder": "Search countries...",
+    "no_results": "No countries match \"{{query}}\"."
   },
   "country": {
     "overview_badge": "Country Overview",

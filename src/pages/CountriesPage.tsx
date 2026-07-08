@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { useCountries } from '../features/countries/useCountries'
@@ -9,6 +10,16 @@ export function CountriesPage() {
   const { t } = useTranslation()
   const { data, isLoading, isError, error, refetch } = useCountries()
   const errorVariant = isError ? classifyApiError(error) : undefined
+  const [search, setSearch] = useState('')
+
+  const filteredCountries = data?.filter((country) => {
+    const query = search.trim().toLowerCase()
+    if (!query) return true
+    return (
+      country.code.toLowerCase().includes(query) ||
+      (country.name?.toLowerCase().includes(query) ?? false)
+    )
+  })
 
   return (
     <div>
@@ -20,6 +31,18 @@ export function CountriesPage() {
           {t('countries.description')}
         </p>
       </div>
+
+      {data && (
+        <div className="mb-6">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder={t('countries.search_placeholder')}
+            className="w-full max-w-sm rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm text-gray-800 shadow-sm focus:border-sky-400 focus:outline-none dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+          />
+        </div>
+      )}
 
       {isLoading && (
         <p className="text-gray-500 dark:text-gray-400">{t('countries.loading')}</p>
@@ -57,7 +80,15 @@ export function CountriesPage() {
         />
       )}
 
-      {data && <CountriesGrid countries={data} />}
+      {filteredCountries && filteredCountries.length === 0 && (
+        <p className="text-gray-500 dark:text-gray-400">
+          {t('countries.no_results', { query: search })}
+        </p>
+      )}
+
+      {filteredCountries && filteredCountries.length > 0 && (
+        <CountriesGrid countries={filteredCountries} />
+      )}
     </div>
   )
 }

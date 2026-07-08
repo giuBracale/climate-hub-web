@@ -113,7 +113,9 @@
     "title": "Países",
     "description": "Explora datos climáticos y económicos de todo el mundo.",
     "loading": "Cargando países…",
-    "view_trends": "Ver tendencias →"
+    "view_trends": "Ver tendencias →",
+    "search_placeholder": "Buscar países...",
+    "no_results": "Ningún país coincide con \"{{query}}\"."
   },
   "country": {
     "overview_badge": "Resumen del país",
