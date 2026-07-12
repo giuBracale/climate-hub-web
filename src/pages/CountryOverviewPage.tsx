@@ -80,7 +80,10 @@ export function CountryOverviewPage() {
   // Derive effective range before early returns (fallback to 0 while data absent)
   const minYear = years.length > 0 ? years[years.length - 1] : 0
   const maxYear = years.length > 0 ? years[0] : 0
-  const effectiveStart = startYear ?? minYear
+  // Default to the most recent 15 years — the full history is dominated by
+  // long-run nominal growth and hides recent, more relevant variation.
+  const defaultStartYear = years.length > 0 ? Math.max(minYear, maxYear - 14) : 0
+  const effectiveStart = startYear ?? defaultStartYear
   const effectiveEnd = endYear ?? maxYear
 
   const chartData = useMemo(
