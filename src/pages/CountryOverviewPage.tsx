@@ -18,6 +18,20 @@ import { toChartData } from '../features/country-detail/chart.utils'
 import type { ChartMetric } from '../features/country-detail/chart.utils'
 import type { MetricCardProps } from '../features/country-detail/MetricCard'
 import type { Country } from '../features/countries/countries.types'
+import type { ClimateRecord } from '../features/country-detail/countryDetail.types'
+
+// World Bank publishes GDP/population estimates for the current year before
+// CO2 data (which needs slower emissions inventories), so the latest year is
+// often GDP/population-complete but CO2-null. Drop it until it's backfilled.
+function excludeIncompleteLatestYear(records: ClimateRecord[]): ClimateRecord[] {
+  if (records.length === 0) return records
+  const latestYear = Math.max(...records.map((r) => r.year))
+  const latestRecord = records.find((r) => r.year === latestYear)
+  if (latestRecord?.co2 === null) {
+    return records.filter((r) => r.year !== latestYear)
+  }
+  return records
+}
 
 function formatGdp(value: number | null | undefined): string {
   if (value === null || value === undefined) return '—'
@@ -72,9 +86,14 @@ export function CountryOverviewPage() {
     (c) => c.code.toLowerCase() === country?.toLowerCase(),
   )?.name
 
-  const years = useMemo(
-    () => (history.data ?? []).map((r) => r.year).sort((a, b) => b - a),
+  const records = useMemo(
+    () => excludeIncompleteLatestYear(history.data ?? []),
     [history.data],
+  )
+
+  const years = useMemo(
+    () => records.map((r) => r.year).sort((a, b) => b - a),
+    [records],
   )
 
   // Derive effective range before early returns (fallback to 0 while data absent)
@@ -87,8 +106,8 @@ export function CountryOverviewPage() {
   const effectiveEnd = endYear ?? maxYear
 
   const chartData = useMemo(
-    () => toChartData(history.data ?? [], metric, effectiveStart, effectiveEnd),
-    [history.data, metric, effectiveStart, effectiveEnd],
+    () => toChartData(records, metric, effectiveStart, effectiveEnd),
+    [records, metric, effectiveStart, effectiveEnd],
   )
 
   // --- early returns ---
@@ -169,8 +188,6 @@ export function CountryOverviewPage() {
       />
     )
   }
-
-  const records = history.data ?? []
 
   if (records.length === 0) {
     return (
