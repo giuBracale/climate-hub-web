@@ -3,7 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { FeedbackState } from '../components/FeedbackState'
-import { classifyApiError } from '../utils/feedbackUtils'
+import { classifyApiError, getFeedbackCopy } from '../utils/feedbackUtils'
 import { useCountryHistory } from '../features/country-detail/useCountryHistory'
 import { CountryHeader } from '../features/country-detail/CountryHeader'
 import { MetricCard } from '../features/country-detail/MetricCard'
@@ -138,28 +138,16 @@ export function CountryOverviewPage() {
 
   if (history.isError) {
     const variant = classifyApiError(history.error)
-    const isNetwork = variant === 'network-error'
-    const isNotFound = variant === 'not-found'
+    const isRetryable = variant !== 'not-found'
+    const { title, description } = getFeedbackCopy(variant, t)
     return (
       <FeedbackState
         variant={variant}
-        title={
-          isNotFound
-            ? t('country.error.unavailable_title')
-            : isNetwork
-              ? t('country.error.service_title')
-              : t('country.error.generic_title')
-        }
-        description={
-          isNotFound
-            ? t('country.error.unavailable_desc')
-            : isNetwork
-              ? t('country.error.service_desc')
-              : t('country.error.generic_desc')
-        }
+        title={title}
+        description={description}
         actions={
           <>
-            {isNetwork && (
+            {isRetryable && (
               <button
                 onClick={() => history.refetch()}
                 className="rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500"
@@ -170,7 +158,7 @@ export function CountryOverviewPage() {
             <Link
               to="/countries"
               className={
-                isNetwork
+                isRetryable
                   ? 'rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-sm font-semibold text-gray-700 shadow hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800'
                   : 'rounded-lg bg-sky-600 px-5 py-2.5 text-sm font-semibold text-white shadow transition-transform hover:-translate-y-0.5 hover:bg-sky-500'
               }

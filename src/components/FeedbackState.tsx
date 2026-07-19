@@ -1,19 +1,34 @@
-import { SearchX, CloudOff, Database, AlertTriangle, type LucideProps } from 'lucide-react'
+import {
+  SearchX,
+  CloudOff,
+  Database,
+  DatabaseZap,
+  ServerOff,
+  Clock,
+  AlertTriangle,
+  type LucideProps,
+} from 'lucide-react'
 import type { ComponentType, ReactNode } from 'react'
 import type { FeedbackVariant } from '../utils/feedbackUtils'
 
 const ICONS: Record<FeedbackVariant, ComponentType<LucideProps>> = {
-  'not-found':     SearchX,
-  'network-error': CloudOff,
-  'empty':         Database,
-  'error':         AlertTriangle,
+  'not-found':           SearchX,
+  'network-error':       CloudOff,
+  'backend-unavailable': ServerOff,
+  'database-unavailable': DatabaseZap,
+  'rate-limited':        Clock,
+  'empty':               Database,
+  'error':               AlertTriangle,
 }
 
 const ICON_COLOR: Record<FeedbackVariant, string> = {
-  'not-found':     'text-gray-400 dark:text-gray-500',
-  'network-error': 'text-amber-400 dark:text-amber-500',
-  'empty':         'text-sky-400 dark:text-sky-500',
-  'error':         'text-red-400 dark:text-red-500',
+  'not-found':           'text-gray-400 dark:text-gray-500',
+  'network-error':       'text-amber-400 dark:text-amber-500',
+  'backend-unavailable': 'text-amber-400 dark:text-amber-500',
+  'database-unavailable': 'text-amber-400 dark:text-amber-500',
+  'rate-limited':        'text-amber-400 dark:text-amber-500',
+  'empty':               'text-sky-400 dark:text-sky-500',
+  'error':               'text-red-400 dark:text-red-500',
 }
 
 interface Props {
